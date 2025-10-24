@@ -23,7 +23,8 @@ pipeline {
         echo '🔄 Restarting React preview server...'
         sh '''
           pm2 delete react-demo || true
-          pm2 start npm --name "react-demo" -- start
+          npm run build
+          pm2 start npm --name "react-demo" -- preview
           pm2 save
         '''
       }
