@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        checkout scm
+        git branch: env.BRANCH_NAME, url: 'https://github.com/datphamtien1/my-app'
       }
     }
 
@@ -51,10 +51,10 @@ pipeline {
 
   post {
     success {
-      echo "✅ Build completed successfully for branch"
+      echo "✅ Build completed successfully for branch: ${env.BRANCH_NAME}"
     }
     failure {
-      echo "❌ Build failed on branch"
+      echo "❌ Build failed on branch: ${env.BRANCH_NAME}"
     }
   }
 }
