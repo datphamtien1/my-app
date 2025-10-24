@@ -48,7 +48,6 @@ pipeline {
           npm run build
           pm2 start npm --name "react-demo" -- run preview
           pm2 save
-          sudo pm2 startup systemd -u jenkins --hp /var/lib/jenkins
         '''
       }
     }
