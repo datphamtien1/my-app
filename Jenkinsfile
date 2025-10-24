@@ -24,7 +24,7 @@ pipeline {
         sh '''
           pm2 delete react-demo || true
           npm run build
-          pm2 start npm run --name "react-demo" -- preview
+          pm2 start npm --name "react-demo" -- run preview
           pm2 save
         '''
       }
