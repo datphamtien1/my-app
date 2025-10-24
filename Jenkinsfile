@@ -56,9 +56,11 @@ pipeline {
   post {
     success {
       echo "✅ Build completed successfully for branch: ${env.BRANCH_NAME}"
+       githubNotify context: 'CI/Jenkins', description: 'Build succeeded', status: 'SUCCESS'
     }
     failure {
       echo "❌ Build failed on branch: ${env.BRANCH_NAME}"
+        githubNotify context: 'CI/Jenkins', description: 'Build failed', status: 'FAILURE'
     }
   }
 }
