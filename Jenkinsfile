@@ -32,7 +32,7 @@ pipeline {
 
   post {
     success {
-      echo "✅ React preview server running on port 3000"
+      echo "✅ React prev iew server running on port 3000"
     }
     failure {
       echo "❌ Failed to start React preview server"
