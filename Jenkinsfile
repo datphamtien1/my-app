@@ -14,7 +14,6 @@ pipeline {
 
     stage('Install') {
       steps {
-        sh 'ls -la'   
         sh 'npm ci'
       }
     }
@@ -53,16 +52,37 @@ pipeline {
     }
   }
 
-  post {
-    success {
-      echo "✅ Build completed successfully for branch: ${env.BRANCH_NAME}"
-       githubNotify context: 'CI/Jenkins', description: 'Build succeeded', status: 'SUCCESS'
-    }
-    failure {
-      echo "❌ Build failed on branch: ${env.BRANCH_NAME}"
-        githubNotify context: 'CI/Jenkins', description: 'Build failed', status: 'FAILURE'
+post {
+  success {
+    echo "✅ Build completed successfully for branch: ${env.BRANCH_NAME}"
+    script {
+      try {
+        setGitHubPullRequestStatus(
+          context: 'CI/Jenkins',
+          status: 'SUCCESS',
+          description: "Build succeeded for ${env.BRANCH_NAME}"
+        )
+      } catch (e) {
+        echo "⚠️ Skipped GitHub status update (no PR context)."
+      }
     }
   }
+  failure {
+    echo "❌ Build failed on branch: ${env.BRANCH_NAME}"
+    script {
+      try {
+        setGitHubPullRequestStatus(
+          context: 'CI/Jenkins',
+          status: 'FAILURE',
+          description: "Build failed for ${env.BRANCH_NAME}"
+        )
+      } catch (e) {
+        echo "⚠️ Skipped GitHub status update (no PR context)."
+      }
+    }
+  }
+}
+
 }
 
 
